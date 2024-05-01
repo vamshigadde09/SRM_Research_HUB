@@ -1,31 +1,33 @@
 const express = require("express");
 const colors = require("colors");
-const moragan = require("morgan");
+const morgan = require("morgan");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
+const cors = require("cors");
 
-//dotenv conig
+// dotenv config
 dotenv.config();
 
-//mongodb connection
+// MongoDB connection
 connectDB();
 
-//rest obejct
+// REST object
 const app = express();
 
-//middlewares
+// middlewares
 app.use(express.json());
-app.use(moragan("dev"));
+app.use(morgan("dev"));
+app.use(cors());
 
-//routes
+// routes
 app.use("/api/v1/user", require("./routes/userRoutes"));
 
-//port
+// port
 const port = process.env.PORT || 8080;
-//listen port
+
+// listen port
 app.listen(port, () => {
   console.log(
-    `Server Running in ${process.env.NODE_MODE} Mode on port ${process.env.PORT}`
-      .bgCyan.white
+    `Server Running in ${process.env.NODE_ENV} Mode on port ${port}`.cyan
   );
 });

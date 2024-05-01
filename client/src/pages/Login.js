@@ -6,6 +6,7 @@ import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
+
   //form handler
   const onfinishHandler = async (values) => {
     try {
@@ -13,7 +14,16 @@ const Login = () => {
       if (res.data.success) {
         localStorage.setItem("token", res.data.token);
         message.success("Login Successfully");
-        navigate("/");
+
+        // Check the user role and navigate accordingly
+        if (res.data.user.role === "student") {
+          navigate("/student"); // Replace with the actual path if different
+        } else if (res.data.user.role === "teacher") {
+          navigate("/teacher"); // Replace with the actual path if different
+        } else {
+          message.error("User role not found");
+          navigate("/");
+        }
       } else {
         message.error(res.data.message);
       }
@@ -22,11 +32,12 @@ const Login = () => {
       message.error("something went wrong");
     }
   };
+
   return (
     <div className="form-container ">
       <Form
         layout="vertical"
-        onFinish={onfinishHandler}
+        onFinish={(values) => onfinishHandler(values)}
         className="register-form"
       >
         <h3 className="text-center">Login From</h3>

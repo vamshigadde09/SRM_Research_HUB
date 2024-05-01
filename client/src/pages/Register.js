@@ -2,7 +2,8 @@ import React from "react";
 import { Form, Input, message, Select } from "antd"; // Importing Form, Input, message, and Select from antd
 import axios from "axios";
 import "../styles/RegiserStyles.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const Register = () => {
   const { Option } = Select;
   const navigate = useNavigate();

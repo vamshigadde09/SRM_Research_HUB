@@ -42,22 +42,34 @@ const loginController = async (req, res) => {
         .status(200)
         .send({ message: "Invlid EMail or Password", success: false });
     }
-    const token = jwt.sign({ id: user.__id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
     if (user.role === "teacher") {
-      res.status(200).send({
+      return res.status(200).send({
         message: "Login Success",
         success: true,
         token,
-        redirect: "/teacherDashbord",
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        },
+        redirect: "/teacher",
       });
     } else if (user.role === "student") {
-      res.status(200).send({
+      return res.status(200).send({
         message: "Login Success",
         success: true,
         token,
-        redirect: "/StudentDashboard",
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        },
+        redirect: "/student",
       });
     }
   } catch (error) {
